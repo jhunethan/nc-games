@@ -1,0 +1,20 @@
+.navigationBar{
+    display: flex;
+    margin: auto;
+}
+
+.navigationBar__button{
+    background-color: #eb1c23;
+    border: none;
+    color: white;
+
+    padding: 5px 10px;
+    
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.navigationBar__button:hover{
+    background-color: #c9171d;
+
+}
