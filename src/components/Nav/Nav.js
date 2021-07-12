@@ -14,8 +14,8 @@ export default function Nav(props) {
 
   return (
     <div className="navigationBar">
-      {categories.map((category) => (
-        <button className="navigationBar__button">{category.slug}</button>
+      {categories.map((category,index) => (
+        <button className="navigationBar__button" key={category+index}>{category.slug}</button>
       ))}
     </div>
   );
