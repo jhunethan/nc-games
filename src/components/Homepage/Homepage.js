@@ -1,11 +1,11 @@
 import Display from "../Display/Display";
 import Header from "../Header/Header";
 import Nav from "../Nav/Nav";
-import "./App.css";
+import "./Homepage.css";
 
-function App() {
+function Homepage() {
   return (
-    <div className="App">
+    <div className="Homepage">
       <Header />
       <Nav />
       <Display />
@@ -13,4 +13,4 @@ function App() {
   );
 }
 
-export default App;
+export default Homepage;
