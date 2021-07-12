@@ -16,6 +16,12 @@
   padding: 20px;
 
   border: 1px solid black;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.display__card:hover{
+  background-color: rgb(240, 240, 240);
 }
 
 .display__image{

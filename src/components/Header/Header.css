@@ -1,4 +1,13 @@
-.header{
-    background-color: #EB1C23;
-    color: white;
+.header {
+  background-color: #eb1c23;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.header > h1 {
+  cursor: pointer;
+  user-select: none;
+  width: 400px;
+  margin: auto;
 }
