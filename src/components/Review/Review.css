@@ -6,6 +6,10 @@
     margin: 5vh auto;
 }
 
+.reviewCard__container{
+    padding: 20px;
+}
+
 .comments__section{
     display: flex;
     flex-direction: column;
