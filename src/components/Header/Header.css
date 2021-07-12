@@ -8,6 +8,7 @@
 .header > h1 {
   cursor: pointer;
   user-select: none;
-  width: 400px;
   margin: auto;
+
+  width: fit-content;
 }
