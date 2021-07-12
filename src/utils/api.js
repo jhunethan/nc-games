@@ -8,3 +8,8 @@ export const getCategories = async () => {
   const categories = await gamesApi.get("/categories");
   return categories;
 };
+
+export const getReviews = async () => {
+  const reviews = await gamesApi.get("/reviews");
+  return reviews;
+};
