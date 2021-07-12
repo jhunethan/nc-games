@@ -1,13 +1,22 @@
-import "./Nav.css"
+import { useEffect, useState } from "react";
+import { getCategories } from "../../utils/api";
+import "./Nav.css";
 
-export default function Nav() {
+export default function Nav(props) {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories().then((response) => {
+      const { categories } = response.data;
+      setCategories(categories);
+    });
+  }, []);
+
   return (
     <div className="navigationBar">
-      <button className="navigationBar__button">text</button>
-      <button className="navigationBar__button">text</button>
-      <button className="navigationBar__button">text</button>
-      <button className="navigationBar__button">text</button>
-      <button className="navigationBar__button">text</button>
+      {categories.map((category) => (
+        <button className="navigationBar__button">{category.slug}</button>
+      ))}
     </div>
   );
 }
