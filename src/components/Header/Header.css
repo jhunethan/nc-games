@@ -5,7 +5,9 @@
   text-align: center;
 }
 
-.header > h1 {
+.header__h1 {
+  color: white;
+  
   cursor: pointer;
   user-select: none;
   margin: auto;

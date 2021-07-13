@@ -15,15 +15,30 @@
   margin: 30px auto;
   padding: 20px;
 
+  color: black;
   border: 1px solid black;
-  cursor: pointer;
   transition: all 0.3s;
 }
 
-.display__card:hover{
-  background-color: rgb(240, 240, 240);
+.display__image{
+  width: 100%;
 }
 
-.display__image{
-  height: 100px;
+.display__body{
+  margin: 20px 0 30px 0;
 }
+
+.display__title{
+  margin: 0;
+}
+
+.remove_bold{
+  font-weight: normal;
+}
+
+.display__container--spacebetween{
+  display: flex;
+  justify-content: space-between;
+}
+
+

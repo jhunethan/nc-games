@@ -1,6 +1,7 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Homepage from "../components/Homepage/Homepage";
 import Review from "../components/Review/Review";
+import "./App.css"
 
 export default function App() {
   return (
