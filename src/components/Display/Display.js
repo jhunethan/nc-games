@@ -3,6 +3,7 @@ import { getReviews } from "../../utils/api";
 import "./Display.css";
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function ReviewDisplay(props) {
   const [votes, setVotes] = useState(0);
@@ -15,6 +16,13 @@ function ReviewDisplay(props) {
   function addVote(event) {
     event.preventDefault();
     setVotes((currVotes) => currVotes + 1);
+    axios
+      .patch(`https://ncgames.herokuapp.com/api/reviews/${review.review_id}`, {
+        inc_votes: 1,
+      })
+      .then((response) => {
+        console.log(response);
+      });
   }
 
   return (
@@ -62,8 +70,8 @@ export default function Display(props) {
   return (
     <main>
       <section className="display__grid">
-        {reviews.map((review) => {
-          return <ReviewDisplay review={review} />;
+        {reviews.map((review,index) => {
+          return <ReviewDisplay key={`review${index}`} review={review} />;
         })}
       </section>
     </main>
