@@ -10,15 +10,3 @@
     padding: 20px;
 }
 
-.comments__section{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    
-    background-color: rgb(233, 233, 233);
-    padding: 20px;
-}
-
-.comments__card{
-    padding: 5px 20px;
-}

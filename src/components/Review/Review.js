@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getReviewByReviewId, getCommentsByReviewId } from "../../utils/api";
+import { getReviewByReviewId } from "../../utils/api";
 import dateFormat from "dateformat";
 import axios from "axios";
 import Header from "../Header/Header";
+import Comments from "../Comments/Comments";
 
 import "./Review.css";
 
 export default function Review(props) {
   const [review, setReview] = useState();
   const [votes, setVotes] = useState(0);
-  const [comments, setComments] = useState([]);
+
   const params = useParams();
   const { review_id } = params;
 
@@ -20,13 +21,6 @@ export default function Review(props) {
       setReview(review);
     });
   }, [review_id]);
-
-  useEffect(() => {
-    getCommentsByReviewId(review_id).then((response) => {
-      const { comments } = response.data;
-      setComments(comments);
-    });
-  }, [review, review_id]);
 
   useEffect(() => {
     if (review) setVotes(review.votes);
@@ -72,16 +66,7 @@ export default function Review(props) {
       )}
       <section className="comments__section">
         <h2>Comments</h2>
-        {comments.map((comment, index) => {
-          return (
-            <div className="comments__card" key={`comment${index}`}>
-              <h4>{comment.author}</h4>
-              <p>{dateFormat(comment.created_at, "dS mmmm yyyy")}</p>
-              <p>{comment.body}</p>
-              <p>Votes: {comment.votes}</p>
-            </div>
-          );
-        })}
+        <Comments />
       </section>
     </section>
   );
