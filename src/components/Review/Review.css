@@ -1,7 +1,7 @@
 .reviewCard__container, .comments__section{
     width: 80vw;
     min-width: 300px;
-    max-width: 1200px;
+    max-width: 80ch;
 
     margin: 5vh auto;
 }
