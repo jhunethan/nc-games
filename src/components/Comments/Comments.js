@@ -23,6 +23,7 @@ export default function Comments() {
     <section>
       <AddComment review_id={review_id} setComments={setComments} />
       {comments.map((comment, index) => {
+        if(!comment.body) return null;
         return (
           <div className="comments__card" key={`comment${index}`}>
             <h4>{comment.author}</h4>

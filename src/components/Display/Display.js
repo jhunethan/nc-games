@@ -14,15 +14,21 @@ function ReviewDisplay(props) {
   }, [review]);
 
   function addVote(event) {
+    const { target } = event;
     event.preventDefault();
+
     setVotes((currVotes) => currVotes + 1);
-    axios
-      .patch(`https://ncgames.herokuapp.com/api/reviews/${review.review_id}`, {
+
+    target.classList.add("btn-outline-success");
+    target.classList.remove("btn-secondary");
+    target.disabled = true;
+
+    axios.patch(
+      `https://ncgames.herokuapp.com/api/reviews/${review.review_id}`,
+      {
         inc_votes: 1,
-      })
-      .then((response) => {
-        console.log(response);
-      });
+      }
+    );
   }
 
   return (
@@ -42,9 +48,9 @@ function ReviewDisplay(props) {
       )}
       <p className="display__body">{review.review_body}</p>
       <div className="display__container--spacebetween">
-        <p className="btn btn-secondary" onClick={addVote}>
+        <button className="btn btn-secondary" onClick={addVote}>
           ⬆ {votes} Votes
-        </p>
+        </button>
         <Link to={`/review/${review.review_id}`}>
           <p className="btn btn-secondary">
             View {review.comment_count} Comments
@@ -70,7 +76,7 @@ export default function Display(props) {
   return (
     <main>
       <section className="display__grid">
-        {reviews.map((review,index) => {
+        {reviews.map((review, index) => {
           return <ReviewDisplay key={`review${index}`} review={review} />;
         })}
       </section>
