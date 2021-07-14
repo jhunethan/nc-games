@@ -1,40 +1,21 @@
-import { useEffect, useState } from "react";
-import { getReviews } from "../../utils/api";
-import "./Display.css";
+import { useEffect } from "react";
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { useVotes } from "../../Hooks/Hooks";
+import "./Display.css";
 
 function ReviewDisplay(props) {
-  const [votes, setVotes] = useState(0);
+  const { votes, setVotes, addVote } = useVotes();
   const { review } = props;
 
   useEffect(() => {
     setVotes(review.votes);
-  }, [review]);
-
-  function addVote(event) {
-    const { target } = event;
-    event.preventDefault();
-
-    setVotes((currVotes) => currVotes + 1);
-
-    target.classList.add("btn-outline-success");
-    target.classList.remove("btn-secondary");
-    target.disabled = true;
-
-    axios.patch(
-      `https://ncgames.herokuapp.com/api/reviews/${review.review_id}`,
-      {
-        inc_votes: 1,
-      }
-    );
-  }
+  }, [review, setVotes]);
 
   return (
     <div className="display__card">
       <h2 className="display__title remove_bold">{review.title}</h2>
-      <h3 className="display__subtitle remove_bold">by {review.designer}</h3>
+      <h3 className="remove_bold">by {review.designer}</h3>
       <div className="display__container--spacebetween">
         <p>{dateFormat(review.created_at, "dS mmmm yyyy")}</p>
         <p>Written by {review.owner}</p>
@@ -48,7 +29,10 @@ function ReviewDisplay(props) {
       )}
       <p className="display__body">{review.review_body}</p>
       <div className="display__container--spacebetween">
-        <button className="btn btn-secondary" onClick={addVote}>
+        <button
+          className="btn btn-secondary"
+          onClick={(event) => addVote(event, review.review_id)}
+        >
           ⬆ {votes} Votes
         </button>
         <Link to={`/review/${review.review_id}`}>
@@ -62,24 +46,19 @@ function ReviewDisplay(props) {
 }
 
 export default function Display(props) {
-  const { reviews, setReviews } = props;
-
-  useEffect(() => {
-    if (!reviews.length) {
-      getReviews().then((response) => {
-        const { reviews } = response.data;
-        setReviews(reviews);
-      });
-    }
-  });
+  const { reviews } = props;
 
   return (
     <main>
-      <section className="display__grid">
-        {reviews.map((review, index) => {
-          return <ReviewDisplay key={`review${index}`} review={review} />;
-        })}
-      </section>
+      {reviews.length ? (
+        <section className="display__grid">
+          {reviews.map((review, index) => {
+            return <ReviewDisplay key={`review${index}`} review={review} />;
+          })}
+        </section>
+      ) : (
+        <div className="spinner-border absolute-center" role="status"></div>
+      )}
     </main>
   );
 }

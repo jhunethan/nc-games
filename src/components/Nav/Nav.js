@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getCategories, getReviews } from "../../utils/api";
+import { getCategories } from "../../utils/api";
 import "./Nav.css";
 
 export default function Nav(props) {
-  const { setReviews } = props;
+  const { setReviewsByCategory } = props;
   const [categories, setCategories] = useState([]);
   const [filterWord, setFilterWord] = useState("");
 
@@ -14,20 +14,10 @@ export default function Nav(props) {
     });
   }, []);
 
-  const selectCategory = (category) => {
+  function selectCategory(category) {
+    setReviewsByCategory(category);
     setFilterWord(category);
-    getReviews().then((response) => {
-      const { reviews } = response.data;
-      if (category) {
-        const filteredResults = reviews.filter(
-          (review) => review.category === category
-        );
-        setReviews(filteredResults);
-      } else {
-        setReviews(reviews);
-      }
-    });
-  };
+  }
 
   return (
     <nav>

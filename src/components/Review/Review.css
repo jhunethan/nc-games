@@ -1,4 +1,6 @@
 .reviewCard__container, .comments__section{
+    min-height: 300px;
+    height: auto;
     width: 80vw;
     min-width: 300px;
     max-width: 80ch;

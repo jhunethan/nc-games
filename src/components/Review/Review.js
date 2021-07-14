@@ -1,47 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getReviewByReviewId } from "../../utils/api";
+import { useReview, useVotes } from "../../Hooks/Hooks";
 import dateFormat from "dateformat";
-import axios from "axios";
 import Header from "../Header/Header";
 import Comments from "../Comments/Comments";
 
 import "./Review.css";
 
-export default function Review(props) {
-  const [review, setReview] = useState();
-  const [votes, setVotes] = useState(0);
-
+export default function Review() {
   const params = useParams();
   const { review_id } = params;
 
-  useEffect(() => {
-    getReviewByReviewId(review_id).then((response) => {
-      const { review } = response.data;
-      setReview(review);
-    });
-  }, [review_id]);
+  const { votes, setVotes, addVote } = useVotes();
+  const { review } = useReview(review_id);
 
   useEffect(() => {
     if (review) setVotes(review.votes);
-  }, [review]);
-
-  function addVote(event) {
-    event.preventDefault();
-    setVotes((currVotes) => currVotes + 1);
-    axios
-      .patch(`https://ncgames.herokuapp.com/api/reviews/${review.review_id}`, {
-        inc_votes: 1,
-      })
-      .then((response) => {
-        console.log(response);
-      });
-  }
+  }, [review, setVotes]);
 
   return (
     <section>
       <Header />
-      {review && (
+      {review ? (
         <div className="reviewCard__container">
           <h2 className="display__title remove_bold">{review.title}</h2>
           <h3 className="display__subtitle remove_bold">
@@ -59,15 +39,20 @@ export default function Review(props) {
             />
           )}
           <p className="display__body">{review.review_body}</p>
-          <p className="btn btn-secondary" onClick={addVote}>
+          <button
+            className="btn btn-secondary"
+            onClick={(event) => addVote(event, review.review_id)}
+          >
             ⬆ {votes} Votes
-          </p>
+          </button>
+          <section className="comments__section">
+            <h2>Comments</h2>
+            <Comments />
+          </section>
         </div>
+      ) : (
+        <div className="spinner-border absolute-center" role="status"></div>
       )}
-      <section className="comments__section">
-        <h2>Comments</h2>
-        <Comments />
-      </section>
     </section>
   );
 }

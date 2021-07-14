@@ -98,7 +98,7 @@ export function AddComment(props) {
         );
       })}
       <label htmlFor="userComment" style={{ marginTop: "20px" }}>
-        Comment here
+        Logged in as jessjelly
       </label>
       <textarea
         name="userComment"

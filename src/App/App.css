@@ -5,3 +5,9 @@ a{
 .right{
     float: right;
 }
+
+.absolute-center{
+    position: absolute;
+    left: 50vw;
+    top: 30vh;
+}

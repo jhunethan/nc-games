@@ -9,8 +9,9 @@ export const getCategories = async () => {
   return categories;
 };
 
-export const getReviews = async () => {
-  const reviews = await gamesApi.get("/reviews");
+export const getReviews = async (category) => {
+  const url = (category) ? `/reviews?category=${category}` :'/reviews'
+  const reviews = await gamesApi.get(url);
   return reviews;
 };
 
