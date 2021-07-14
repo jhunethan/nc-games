@@ -43,6 +43,8 @@ export const useReviews = () => {
   const [sortedBy, setSortedBy] = useState();
 
   const setSortedByLabel = (sort_by, order_by) => {
+    if(!sort_by) return setSortedBy()
+    
     if (sort_by === "created_at") {
       return setSortedBy(order_by === "DESC" ? "Newest First" : "Oldest First");
     }

@@ -107,7 +107,7 @@ export default function Nav(props) {
           <h3>Sorting results by </h3>
           <button
             className="btn btn-lg btn-danger"
-            onClick={() => requestReviews()}
+            onClick={() => requestReviews({sort_by:""})}
           >
             {sortedBy} <span aria-hidden={true}>&times;</span>
           </button>
