@@ -15,10 +15,9 @@ export const useVotes = (initialVotes = 0) => {
     target.classList.remove("btn-secondary");
     target.disabled = true;
 
-    axios
-      .patch(`https://ncgames.herokuapp.com/api/reviews/${review_id}`, {
-        inc_votes: 1,
-      })
+    axios.patch(`https://ncgames.herokuapp.com/api/reviews/${review_id}`, {
+      inc_votes: 1,
+    });
   }
 
   return { votes, setVotes, addVote };
@@ -40,8 +39,10 @@ export const useReview = (review_id) => {
 
 export const useReviews = () => {
   const [reviews, setReviews] = useState([]);
+  const [category, setCategory] = useState();
 
   const setReviewsByCategory = (category) => {
+    setCategory(category);
     getReviews(category).then((response) => {
       const { reviews } = response.data;
       setReviews(reviews);
@@ -49,6 +50,7 @@ export const useReviews = () => {
   };
 
   const sortReviews = (field, order) => {
+    if (!field) setReviews([]);
     setReviews((currReviews) => {
       if (field === "created_at")
         return [...currReviews].sort((a, b) => {
@@ -70,12 +72,12 @@ export const useReviews = () => {
 
   useEffect(() => {
     if (!reviews.length) {
-      getReviews().then((response) => {
+      getReviews(category).then((response) => {
         const { reviews } = response.data;
         setReviews(reviews);
       });
     }
-  }, [reviews.length]);
+  }, [reviews.length, category]);
 
   return { reviews, setReviews, setReviewsByCategory, sortReviews };
 };

@@ -7,6 +7,7 @@ export default function Nav(props) {
   const { reviews, setReviewsByCategory, sortReviews } = props;
   const [categories, setCategories] = useState([]);
   const [filterWord, setFilterWord] = useState("");
+  const [sortedBy, setSortedBy] = useState();
 
   useEffect(() => {
     getCategories().then((response) => {
@@ -18,6 +19,7 @@ export default function Nav(props) {
   function selectCategory(category) {
     setReviewsByCategory(category);
     setFilterWord(category);
+    setSortedBy();
   }
 
   return (
@@ -46,22 +48,52 @@ export default function Nav(props) {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => sortReviews("votes", "DESC")}>
+            <Dropdown.Item
+              onClick={() => {
+                sortReviews("votes", "DESC");
+                setSortedBy("Most Votes");
+              }}
+            >
               Highest Votes
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => sortReviews("votes", "ASC")}>
+            <Dropdown.Item
+              onClick={() => {
+                sortReviews("votes", "ASC");
+                setSortedBy("Least Votes");
+              }}
+            >
               Lowest Votes
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => sortReviews("comment_count", "DESC")}>
+            <Dropdown.Item
+              onClick={() => {
+                sortReviews("comment_count", "DESC");
+                setSortedBy("Most Comments");
+              }}
+            >
               Most Comments
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => sortReviews("comment_count", "ASC")}>
+            <Dropdown.Item
+              onClick={() => {
+                sortReviews("comment_count", "ASC");
+                setSortedBy("Least Comments");
+              }}
+            >
               Least Comments
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => sortReviews("created_at", "DESC")}>
+            <Dropdown.Item
+              onClick={() => {
+                sortReviews("created_at", "DESC");
+                setSortedBy("Newest First");
+              }}
+            >
               Newest First
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => sortReviews("created_at", "ASC")}>
+            <Dropdown.Item
+              onClick={() => {
+                sortReviews("created_at", "ASC");
+                setSortedBy("Oldest First");
+              }}
+            >
               Oldest First
             </Dropdown.Item>
           </Dropdown.Menu>
@@ -80,6 +112,18 @@ export default function Nav(props) {
             onClick={() => selectCategory("")}
           >
             {filterWord} <span aria-hidden={true}>&times;</span>
+          </button>
+        </div>
+      )}
+
+      {sortedBy && (
+        <div>
+          <h3>Sorting results by </h3>
+          <button
+            className="btn btn-lg btn-danger"
+            onClick={() =>{ setSortedBy();sortReviews("")}}
+          >
+            {sortedBy} <span aria-hidden={true}>&times;</span>
           </button>
         </div>
       )}
