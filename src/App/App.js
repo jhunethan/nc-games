@@ -1,7 +1,8 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Error from "../components/Error/Error";
 import Homepage from "../components/Homepage/Homepage";
 import Review from "../components/Review/Review";
-import "./App.css"
+import "./App.css";
 
 export default function App() {
   return (
@@ -13,6 +14,9 @@ export default function App() {
           </Route>
           <Route path="/review/:review_id">
             <Review />
+          </Route>
+          <Route>
+            <Error />
           </Route>
         </Switch>
       </BrowserRouter>

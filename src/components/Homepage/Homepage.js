@@ -5,12 +5,17 @@ import Nav from "../Nav/Nav";
 import "./Homepage.css";
 
 function Homepage() {
-  const { reviews, setReviews, setReviewsByCategory } = useReviews();
+  const { reviews, setReviews, setReviewsByCategory, sortReviews } =
+    useReviews();
 
   return (
     <div className="Homepage">
       <Header />
-      <Nav setReviewsByCategory={setReviewsByCategory} />
+      <Nav
+        reviews={reviews}
+        sortReviews={sortReviews}
+        setReviewsByCategory={setReviewsByCategory}
+      />
       <Display reviews={reviews} setReviews={setReviews} />
     </div>
   );

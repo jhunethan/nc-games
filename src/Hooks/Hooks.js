@@ -19,9 +19,6 @@ export const useVotes = (initialVotes = 0) => {
       .patch(`https://ncgames.herokuapp.com/api/reviews/${review_id}`, {
         inc_votes: 1,
       })
-      .then((response) => {
-        console.log(response);
-      });
   }
 
   return { votes, setVotes, addVote };
@@ -51,6 +48,26 @@ export const useReviews = () => {
     });
   };
 
+  const sortReviews = (field, order) => {
+    setReviews((currReviews) => {
+      if (field === "created_at")
+        return [...currReviews].sort((a, b) => {
+          if (order === "ASC") {
+            if (a["created_at"] > b["created_at"]) return 1;
+            return -1;
+          } else {
+            if (a["created_at"] > b["created_at"]) return -1;
+            return 1;
+          }
+        });
+
+      return [...currReviews].sort((a, b) => {
+        if (order === "DESC") return b[field] - a[field];
+        else return a[field] - b[field];
+      });
+    });
+  };
+
   useEffect(() => {
     if (!reviews.length) {
       getReviews().then((response) => {
@@ -60,5 +77,5 @@ export const useReviews = () => {
     }
   }, [reviews.length]);
 
-  return { reviews, setReviews, setReviewsByCategory };
+  return { reviews, setReviews, setReviewsByCategory, sortReviews };
 };
