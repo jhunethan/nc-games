@@ -4,10 +4,8 @@ import { Dropdown } from "react-bootstrap";
 import "./Nav.css";
 
 export default function Nav(props) {
-  const { reviews, setReviewsByCategory, sortReviews } = props;
+  const { reviews, requestReviews, category, sortedBy } = props;
   const [categories, setCategories] = useState([]);
-  const [filterWord, setFilterWord] = useState("");
-  const [sortedBy, setSortedBy] = useState();
 
   useEffect(() => {
     getCategories().then((response) => {
@@ -15,12 +13,6 @@ export default function Nav(props) {
       setCategories(categories);
     });
   }, []);
-
-  function selectCategory(category) {
-    setReviewsByCategory(category);
-    setFilterWord(category);
-    setSortedBy();
-  }
 
   return (
     <nav>
@@ -33,7 +25,7 @@ export default function Nav(props) {
           <Dropdown.Menu>
             {categories.map((category, index) => (
               <Dropdown.Item
-                onClick={() => selectCategory(category.slug)}
+                onClick={() => requestReviews({ category: category.slug })}
                 className="navigationBar__button"
                 key={category + index}
               >
@@ -49,50 +41,44 @@ export default function Nav(props) {
 
           <Dropdown.Menu>
             <Dropdown.Item
-              onClick={() => {
-                sortReviews("votes", "DESC");
-                setSortedBy("Most Votes");
-              }}
+              onClick={() =>
+                requestReviews({ sort_by: "votes", order_by: "DESC" })
+              }
             >
               Highest Votes
             </Dropdown.Item>
             <Dropdown.Item
-              onClick={() => {
-                sortReviews("votes", "ASC");
-                setSortedBy("Least Votes");
-              }}
+              onClick={() =>
+                requestReviews({ sort_by: "votes", order_by: "ASC" })
+              }
             >
               Lowest Votes
             </Dropdown.Item>
             <Dropdown.Item
-              onClick={() => {
-                sortReviews("comment_count", "DESC");
-                setSortedBy("Most Comments");
-              }}
+              onClick={() =>
+                requestReviews({ sort_by: "comment_count", order_by: "DESC" })
+              }
             >
               Most Comments
             </Dropdown.Item>
             <Dropdown.Item
-              onClick={() => {
-                sortReviews("comment_count", "ASC");
-                setSortedBy("Least Comments");
-              }}
+              onClick={() =>
+                requestReviews({ sort_by: "comment_count", order_by: "ASC" })
+              }
             >
               Least Comments
             </Dropdown.Item>
             <Dropdown.Item
-              onClick={() => {
-                sortReviews("created_at", "DESC");
-                setSortedBy("Newest First");
-              }}
+              onClick={() =>
+                requestReviews({ sort_by: "created_at", order_by: "DESC" })
+              }
             >
               Newest First
             </Dropdown.Item>
             <Dropdown.Item
-              onClick={() => {
-                sortReviews("created_at", "ASC");
-                setSortedBy("Oldest First");
-              }}
+              onClick={() =>
+                requestReviews({ sort_by: "created_at", order_by: "ASC" })
+              }
             >
               Oldest First
             </Dropdown.Item>
@@ -104,14 +90,14 @@ export default function Nav(props) {
           <h3>Showing {reviews.length} Reviews</h3>
         </div>
       ) : null}
-      {filterWord && (
+      {category && (
         <div>
           <h3>Filtering results by </h3>
           <button
             className="btn btn-lg btn-danger"
-            onClick={() => selectCategory("")}
+            onClick={() => requestReviews({ category: "" })}
           >
-            {filterWord} <span aria-hidden={true}>&times;</span>
+            {category} <span aria-hidden={true}>&times;</span>
           </button>
         </div>
       )}
@@ -121,7 +107,7 @@ export default function Nav(props) {
           <h3>Sorting results by </h3>
           <button
             className="btn btn-lg btn-danger"
-            onClick={() =>{ setSortedBy();sortReviews("")}}
+            onClick={() => requestReviews()}
           >
             {sortedBy} <span aria-hidden={true}>&times;</span>
           </button>

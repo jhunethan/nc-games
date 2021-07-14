@@ -39,45 +39,41 @@ export const useReview = (review_id) => {
 
 export const useReviews = () => {
   const [reviews, setReviews] = useState([]);
-  const [category, setCategory] = useState();
+  const [stateCategory, setStateCategory] = useState();
+  const [sortedBy, setSortedBy] = useState();
 
-  const setReviewsByCategory = (category) => {
-    setCategory(category);
-    getReviews(category).then((response) => {
+  const setSortedByLabel = (sort_by, order_by) => {
+    if (sort_by === "created_at") {
+      return setSortedBy(order_by === "DESC" ? "Newest First" : "Oldest First");
+    }
+
+    const output = [];
+    output.push(order_by === "DESC" ? "Most" : "Least");
+    output.push(sort_by === "votes" ? "Votes" : "Comments");
+    return setSortedBy(output.join(" "));
+  };
+
+  const requestReviews = ({
+    sort_by = sortedBy,
+    category = stateCategory,
+    order_by,
+  }) => {
+    setStateCategory(category);
+    setSortedByLabel(sort_by, order_by);
+    getReviews({ category, sort_by, order_by }).then((response) => {
       const { reviews } = response.data;
       setReviews(reviews);
     });
   };
 
-  const sortReviews = (field, order) => {
-    if (!field) setReviews([]);
-    setReviews((currReviews) => {
-      if (field === "created_at")
-        return [...currReviews].sort((a, b) => {
-          if (order === "ASC") {
-            if (a["created_at"] > b["created_at"]) return 1;
-            return -1;
-          } else {
-            if (a["created_at"] > b["created_at"]) return -1;
-            return 1;
-          }
-        });
-
-      return [...currReviews].sort((a, b) => {
-        if (order === "DESC") return b[field] - a[field];
-        else return a[field] - b[field];
-      });
-    });
-  };
-
   useEffect(() => {
     if (!reviews.length) {
-      getReviews(category).then((response) => {
+      getReviews({}).then((response) => {
         const { reviews } = response.data;
         setReviews(reviews);
       });
     }
-  }, [reviews.length, category]);
+  }, [reviews.length, stateCategory]);
 
-  return { reviews, setReviews, setReviewsByCategory, sortReviews };
+  return { reviews, setReviews, requestReviews, stateCategory, sortedBy };
 };

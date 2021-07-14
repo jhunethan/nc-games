@@ -5,7 +5,7 @@ import Nav from "../Nav/Nav";
 import "./Homepage.css";
 
 function Homepage() {
-  const { reviews, setReviews, setReviewsByCategory, sortReviews } =
+  const { reviews, setReviews, requestReviews, stateCategory, sortedBy } =
     useReviews();
 
   return (
@@ -13,8 +13,9 @@ function Homepage() {
       <Header />
       <Nav
         reviews={reviews}
-        sortReviews={sortReviews}
-        setReviewsByCategory={setReviewsByCategory}
+        requestReviews={requestReviews}
+        category={stateCategory}
+        sortedBy={sortedBy}
       />
       <Display reviews={reviews} setReviews={setReviews} />
     </div>
