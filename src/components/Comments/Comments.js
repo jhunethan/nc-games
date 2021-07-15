@@ -7,7 +7,8 @@ import "./Comments.css";
 import axios from "axios";
 import { useVotes } from "../../Hooks/Hooks";
 
-export default function Comments() {
+export default function Comments(props) {
+  const { user } = props;
   const [comments, setComments] = useState([]);
 
   const params = useParams();
@@ -22,7 +23,7 @@ export default function Comments() {
 
   return (
     <section>
-      <AddComment review_id={review_id} setComments={setComments} />
+      <AddComment user={user} review_id={review_id} setComments={setComments} />
       {comments.map((comment, index) => {
         return <SingleComment key={`comment${index}`} comment={comment} />;
       })}
@@ -56,7 +57,7 @@ function SingleComment(props) {
 }
 
 export function AddComment(props) {
-  const { setComments, review_id } = props;
+  const { setComments, review_id, user } = props;
   const [errors, setErrors] = useState([]);
   const [success, setSuccess] = useState(false);
 
@@ -74,27 +75,22 @@ export function AddComment(props) {
       });
     } else {
       //success!
-      const newComment = {
-        review_id,
-        body: comment,
-        created_at: new Date(),
-        author: "jessjelly",
-        votes: 0,
-      };
-      //change locally
-      setComments((currComments) => {
-        return [newComment, ...currComments];
-      });
+      
       // clear inputs
       commentField.value = "";
       //send an axios post
       axios
         .post(
           `https://ncgames.herokuapp.com/api/reviews/${review_id}/comments`,
-          { body: comment, username: "jessjelly" }
+          { body: comment, username: user.username }
         )
         .then((response) => {
           if (response.status === 201) setSuccess(true);
+          const {comment} = response.data
+          //change locally
+          setComments((currComments) => {
+            return [comment, ...currComments];
+          });
         })
         .catch((err) => {
           setErrors((curr) => {
@@ -103,6 +99,8 @@ export function AddComment(props) {
         });
     }
   }
+
+  if (!user) return <p>Not logged in</p>;
 
   return (
     <form className="comments__form" onSubmit={submitComment}>
@@ -115,8 +113,9 @@ export function AddComment(props) {
           </div>
         );
       })}
+
       <label htmlFor="userComment" style={{ marginTop: "20px" }}>
-        Logged in as jessjelly
+        Logged in as {user.username}
       </label>
       <textarea
         name="userComment"

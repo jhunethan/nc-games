@@ -1,16 +1,22 @@
+import { useEffect } from "react";
 import { useReviews } from "../../Hooks/Hooks";
 import Display from "../Display/Display";
 import Header from "../Header/Header";
 import Nav from "../Nav/Nav";
 import "./Homepage.css";
 
-function Homepage() {
+function Homepage(props) {
+  const { setUser, user } = props;
   const { reviews, setReviews, requestReviews, stateCategory, getSortedLabel } =
     useReviews();
 
+  useEffect(() => {
+    setUser(user);
+  }, [user,setUser]);
+
   return (
     <div className="Homepage">
-      <Header />
+      <Header user={user} />
       <Nav
         reviews={reviews}
         requestReviews={requestReviews}

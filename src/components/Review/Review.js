@@ -7,7 +7,9 @@ import Comments from "../Comments/Comments";
 
 import "./Review.css";
 
-export default function Review() {
+export default function Review(props) {
+  const{user}= props
+  
   const params = useParams();
   const { review_id } = params;
 
@@ -20,7 +22,7 @@ export default function Review() {
 
   return (
     <section>
-      <Header />
+      <Header user={user} />
       {review ? (
         <div className="reviewCard__container">
           <h2 className="display__title remove_bold">{review.title}</h2>
@@ -49,7 +51,7 @@ export default function Review() {
           </button>
           <section className="comments__section">
             <h2>Comments</h2>
-            <Comments />
+            <Comments user={user} />
           </section>
         </div>
       ) : (
