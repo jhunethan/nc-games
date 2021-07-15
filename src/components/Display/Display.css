@@ -16,7 +16,7 @@
   padding: 20px;
 
   background-color: white;
-  filter: drop-shadow(0 10px 6px #1f1f1f07);
+  filter: drop-shadow(2px 4px 6px #1f1f1f50);
   transition: all 0.3s;
 }
 
