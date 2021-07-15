@@ -37,7 +37,8 @@ function ReviewDisplay(props) {
         </button>
         <Link to={`/review/${review.review_id}`}>
           <p className="btn btn-secondary">
-            View {review.comment_count} Comments
+            View {review.comment_count} Comment
+            {review.comment_count > 1 ? "s" : ""}
           </p>
         </Link>
       </div>
