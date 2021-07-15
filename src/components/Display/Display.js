@@ -31,7 +31,13 @@ function ReviewDisplay(props) {
       <div className="display__container--spacebetween">
         <button
           className="btn btn-secondary"
-          onClick={(event) => addVote(event, review.review_id)}
+          onClick={(event) =>
+            addVote({
+              event,
+              id: review.review_id,
+              database: "reviews",
+            })
+          }
         >
           ⬆ {votes} Votes
         </button>

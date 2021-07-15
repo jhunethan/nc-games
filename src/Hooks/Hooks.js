@@ -5,7 +5,9 @@ import { getReviewByReviewId, getReviews } from "../utils/api";
 export const useVotes = (initialVotes = 0) => {
   const [votes, setVotes] = useState(initialVotes);
 
-  function addVote(event, review_id) {
+  function addVote({ event, id, database }) {
+    if (!["reviews", "comments"].includes(database))
+      return console.log("bad request, enter a correct database");
     const { target } = event;
 
     event.preventDefault();
@@ -15,7 +17,7 @@ export const useVotes = (initialVotes = 0) => {
     target.classList.remove("btn-secondary");
     target.disabled = true;
 
-    axios.patch(`https://ncgames.herokuapp.com/api/reviews/${review_id}`, {
+    axios.patch(`https://ncgames.herokuapp.com/api/${database}/${id}`, {
       inc_votes: 1,
     });
   }
@@ -44,7 +46,7 @@ export const useReviews = () => {
   const [orderBy, setOrderBy] = useState();
 
   const getSortedLabel = () => {
-    if (!sortedBy) return ;
+    if (!sortedBy) return;
 
     if (sortedBy === "created_at") {
       return orderBy === "DESC" ? "Newest First" : "Oldest First";

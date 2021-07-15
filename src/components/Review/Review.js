@@ -41,7 +41,9 @@ export default function Review() {
           <p className="display__body">{review.review_body}</p>
           <button
             className="btn btn-secondary"
-            onClick={(event) => addVote(event, review.review_id)}
+            onClick={(event) =>
+              addVote({ event, id: review.review_id, database: "reviews" })
+            }
           >
             ⬆ {votes} Votes
           </button>

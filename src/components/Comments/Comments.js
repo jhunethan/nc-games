@@ -5,6 +5,7 @@ import { getCommentsByReviewId } from "../../utils/api";
 
 import "./Comments.css";
 import axios from "axios";
+import { useVotes } from "../../Hooks/Hooks";
 
 export default function Comments() {
   const [comments, setComments] = useState([]);
@@ -23,17 +24,34 @@ export default function Comments() {
     <section>
       <AddComment review_id={review_id} setComments={setComments} />
       {comments.map((comment, index) => {
-        if(!comment.body) return null;
-        return (
-          <div className="comments__card" key={`comment${index}`}>
-            <h4>{comment.author}</h4>
-            <p>{dateFormat(comment.created_at, "dS mmmm yyyy")}</p>
-            <p>{comment.body}</p>
-            <p>Votes: {comment.votes}</p>
-          </div>
-        );
+        return <SingleComment key={`comment${index}`} comment={comment} />;
       })}
     </section>
+  );
+}
+
+function SingleComment(props) {
+  const { votes, setVotes, addVote } = useVotes(0);
+  const { comment } = props;
+
+  useEffect(() => {
+    setVotes(comment.votes);
+  }, [comment, setVotes]);
+
+  return (
+    <div className="comments__card">
+      <h4>{comment.author}</h4>
+      <p>{dateFormat(comment.created_at, "dS mmmm yyyy")}</p>
+      <p>{comment.body}</p>
+      <button
+        className="btn btn-secondary"
+        onClick={(event) =>
+          addVote({ event, id: comment.comment_id, database: "comments" })
+        }
+      >
+        ⬆ {votes} Votes
+      </button>
+    </div>
   );
 }
 
