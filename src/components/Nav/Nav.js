@@ -4,7 +4,7 @@ import { Dropdown } from "react-bootstrap";
 import "./Nav.css";
 
 export default function Nav(props) {
-  const { reviews, requestReviews, category, sortedBy } = props;
+  const { reviews, requestReviews, category, getSortedLabel } = props;
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -13,6 +13,13 @@ export default function Nav(props) {
       setCategories(categories);
     });
   }, []);
+
+  function formatCategoryTitle(title) {
+    const titleArray = title.split("-");
+    return titleArray
+      .map((word) => word[0].toUpperCase() + word.substring(1, word.length))
+      .join(" ");
+  }
 
   return (
     <nav>
@@ -23,15 +30,18 @@ export default function Nav(props) {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            {categories.map((category, index) => (
-              <Dropdown.Item
-                onClick={() => requestReviews({ category: category.slug })}
-                className="navigationBar__button"
-                key={category + index}
-              >
-                {category.slug}
-              </Dropdown.Item>
-            ))}
+            {categories.map((category, index) => {
+              const formattedTitle = formatCategoryTitle(category.slug);
+              return (
+                <Dropdown.Item
+                  onClick={() => requestReviews({ category: category.slug })}
+                  className="navigationBar__button"
+                  key={category + index}
+                >
+                  {formattedTitle}
+                </Dropdown.Item>
+              );
+            })}
           </Dropdown.Menu>
         </Dropdown>
         <Dropdown>
@@ -90,29 +100,25 @@ export default function Nav(props) {
           <h3>Showing {reviews.length} Reviews</h3>
         </div>
       ) : null}
-      {category && (
-        <div>
-          <h3>Filtering results by </h3>
+      <div className="navigationBar__display">
+        {category && (
           <button
             className="btn btn-lg btn-danger"
             onClick={() => requestReviews({ category: "" })}
           >
-            {category} <span aria-hidden={true}>&times;</span>
+            {formatCategoryTitle(category)} <span aria-hidden={true}>&times;</span>
           </button>
-        </div>
-      )}
+        )}
 
-      {sortedBy && (
-        <div>
-          <h3>Sorting results by </h3>
+        {getSortedLabel() && (
           <button
             className="btn btn-lg btn-danger"
-            onClick={() => requestReviews({sort_by:""})}
+            onClick={() => requestReviews({ sort_by: "" })}
           >
-            {sortedBy} <span aria-hidden={true}>&times;</span>
+            {getSortedLabel()} <span aria-hidden={true}>&times;</span>
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </nav>
   );
 }

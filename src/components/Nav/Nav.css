@@ -6,3 +6,10 @@
     padding: 10px;
     margin: 10px 0  ;
 }
+
+.navigationBar__display{
+    display: flex;
+    gap: 20px;
+    width: fit-content;
+    margin: 0 auto;
+}

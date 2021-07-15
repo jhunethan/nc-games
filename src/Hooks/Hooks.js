@@ -41,27 +41,29 @@ export const useReviews = () => {
   const [reviews, setReviews] = useState([]);
   const [stateCategory, setStateCategory] = useState();
   const [sortedBy, setSortedBy] = useState();
+  const [orderBy, setOrderBy] = useState();
 
-  const setSortedByLabel = (sort_by, order_by) => {
-    if(!sort_by) return setSortedBy()
-    
-    if (sort_by === "created_at") {
-      return setSortedBy(order_by === "DESC" ? "Newest First" : "Oldest First");
+  const getSortedLabel = () => {
+    if (!sortedBy) return ;
+
+    if (sortedBy === "created_at") {
+      return orderBy === "DESC" ? "Newest First" : "Oldest First";
     }
 
     const output = [];
-    output.push(order_by === "DESC" ? "Most" : "Least");
-    output.push(sort_by === "votes" ? "Votes" : "Comments");
-    return setSortedBy(output.join(" "));
+    output.push(orderBy === "DESC" ? "Most" : "Least");
+    output.push(sortedBy === "votes" ? "Votes" : "Comments");
+    return output.join(" ");
   };
 
   const requestReviews = ({
     sort_by = sortedBy,
     category = stateCategory,
-    order_by,
+    order_by = "ASC",
   }) => {
     setStateCategory(category);
-    setSortedByLabel(sort_by, order_by);
+    setSortedBy(sort_by);
+    setOrderBy(order_by);
     getReviews({ category, sort_by, order_by }).then((response) => {
       const { reviews } = response.data;
       setReviews(reviews);
@@ -77,5 +79,13 @@ export const useReviews = () => {
     }
   }, [reviews.length, stateCategory]);
 
-  return { reviews, setReviews, requestReviews, stateCategory, sortedBy };
+  return {
+    reviews,
+    setReviews,
+    requestReviews,
+    stateCategory,
+    sortedBy,
+    orderBy,
+    getSortedLabel,
+  };
 };
