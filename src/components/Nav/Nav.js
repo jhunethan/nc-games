@@ -8,10 +8,18 @@ export default function Nav(props) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    getCategories().then((response) => {
+    let componentMounted = true;
+    const fetchData = async () => {
+      const response = await getCategories();
       const { categories } = response.data;
-      setCategories(categories);
-    });
+      if (componentMounted) {
+        setCategories(categories);
+      }
+    };
+    fetchData();
+    return () => {
+      componentMounted = false;
+    }
   }, []);
 
   function formatCategoryTitle(title) {
@@ -106,7 +114,8 @@ export default function Nav(props) {
             className="btn btn-lg btn-danger"
             onClick={() => requestReviews({ category: "" })}
           >
-            {formatCategoryTitle(category)} <span aria-hidden={true}>&times;</span>
+            {formatCategoryTitle(category)}{" "}
+            <span aria-hidden={true}>&times;</span>
           </button>
         )}
 

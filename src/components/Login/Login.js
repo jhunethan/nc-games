@@ -1,20 +1,29 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Header from "../Header/Header";
 import "./Login.css";
 
 export default function Login(props) {
   const { setUser } = props;
   const [users, setUsers] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
-    axios.get("https://ncgames.herokuapp.com/api/users").then((response) => {
+    let componentMounted = true;
+    const fetchData = async () => {
+      const response = await axios.get("https://ncgames.herokuapp.com/api/users")
       const { users } = response.data;
-      setUsers(users);
-    });
+      if (componentMounted) {
+        setUsers(users);
+      }
+    };
+    fetchData();
+    return () => {
+      componentMounted = false;
+    }
   }, []);
-
+  
   return (
     <main>
       <Header />
@@ -23,7 +32,7 @@ export default function Login(props) {
         <h2>Select any of the following</h2>
         <div className="login__buttonContainer">
           {users.map((user) => (
-            <Link to={{pathname:"/",user}} key={user.username} >
+            <Link to={{pathname:"/",user}} key={user.username} onClick={()=>history.goBack()} >
               <button
                 className="btn btn-outline-primary login__button"
                 onClick={() => setUser(user)}

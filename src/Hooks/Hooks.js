@@ -6,8 +6,6 @@ export const useVotes = (initialVotes = 0) => {
   const [votes, setVotes] = useState(initialVotes);
 
   function addVote({ event, id, database }) {
-    if (!["reviews", "comments"].includes(database))
-      return console.log("bad request, enter a correct database");
     const { target } = event;
 
     event.preventDefault();
@@ -73,13 +71,19 @@ export const useReviews = () => {
   };
 
   useEffect(() => {
-    if (!reviews.length) {
-      getReviews({}).then((response) => {
-        const { reviews } = response.data;
+    let componentMounted = true;
+    const fetchData = async () => {
+      const response = await getReviews({})
+      const { reviews } = response.data;
+      if (componentMounted && reviews.length) {
         setReviews(reviews);
-      });
+      }
+    };
+    fetchData();
+    return () => {
+      componentMounted = false;
     }
-  }, [reviews.length, stateCategory]);
+  }, [reviews.length]);
 
   return {
     reviews,

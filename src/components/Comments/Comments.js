@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import dateFormat from "dateformat";
 import { getCommentsByReviewId } from "../../utils/api";
 
@@ -15,10 +15,18 @@ export default function Comments(props) {
   const { review_id } = params;
 
   useEffect(() => {
-    getCommentsByReviewId(review_id).then((response) => {
+    let componentMounted = true;
+    const fetchData = async () => {
+      const response = await getCommentsByReviewId(review_id);
       const { comments } = response.data;
-      setComments(comments);
-    });
+      if (componentMounted) {
+        setComments(comments);
+      }
+    };
+    fetchData();
+    return () => {
+      componentMounted = false;
+    }
   }, [review_id]);
 
   return (
@@ -71,11 +79,11 @@ export function AddComment(props) {
 
     if (comment.length <= 3) {
       setErrors((curr) => {
-        return [...curr, "Name must be longer than 3 characters"];
+        return [...curr, "Comment must be longer than 3 characters"];
       });
     } else {
       //success!
-      
+
       // clear inputs
       commentField.value = "";
       //send an axios post
@@ -86,7 +94,7 @@ export function AddComment(props) {
         )
         .then((response) => {
           if (response.status === 201) setSuccess(true);
-          const {comment} = response.data
+          const { comment } = response.data;
           //change locally
           setComments((currComments) => {
             return [comment, ...currComments];
@@ -100,7 +108,15 @@ export function AddComment(props) {
     }
   }
 
-  if (!user) return <p>Not logged in</p>;
+  if (!user)
+    return (
+      <div>
+        <h2>You must be logged in to comment</h2>
+        <Link to="/login" className="btn btn-primary">
+          Login here
+        </Link>
+      </div>
+    );
 
   return (
     <form className="comments__form" onSubmit={submitComment}>

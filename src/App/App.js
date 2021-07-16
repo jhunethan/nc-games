@@ -9,9 +9,13 @@ import "./App.css";
 export default function App() {
   const [user, setUser] = useState();
 
+  // loading state for comments, users
+  // axios use params for axios
+  
   return (
     <main>
       <BrowserRouter>
+      {/* put header here */}
         <Switch>
           <Route path="/" exact>
             <Homepage setUser={setUser} user={user} />

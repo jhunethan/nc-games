@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useVotes } from "../../Hooks/Hooks";
 import "./Display.css";
 
+//review Card
 function ReviewDisplay(props) {
   const { votes, setVotes, addVote } = useVotes();
   const { review } = props;
@@ -52,6 +53,7 @@ function ReviewDisplay(props) {
   );
 }
 
+// review list 
 export default function Display(props) {
   const { reviews } = props;
 

@@ -8,8 +8,8 @@ import Comments from "../Comments/Comments";
 import "./Review.css";
 
 export default function Review(props) {
-  const{user}= props
-  
+  const { user } = props;
+
   const params = useParams();
   const { review_id } = params;
 
