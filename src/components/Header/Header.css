@@ -4,7 +4,7 @@
   text-align: left;
 
   display: flex;
-
+  user-select: none;
 }
 
 .header__h1 {
@@ -18,26 +18,27 @@
 }
 
 .header__button {
-  display: grid;
-  place-items: center;
-  
   cursor: pointer;
 
-  height: auto;
-  width: 125px;
-
-  margin: 0 15px 0 auto;
-  
   border: none;
   border-radius: 0.25rem;
 
-color: white;
+  color: white;
   background-color: #eb1c23;
   font-size: 24px;
   transition: all 0.3s;
 }
 
-.header__button:hover{
+.header__button:hover {
   color: white;
   background-color: #a8080e;
+}
+
+.header__align_right {
+  display: grid;
+  place-items: center;
+  height: auto;
+  width: 125px;
+
+  margin: 0 15px 0 auto;
 }

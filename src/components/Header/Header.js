@@ -10,9 +10,9 @@ export default function Header(props) {
         <h1 className="header__h1">NC Game Reviews</h1>
       </Link>
       {user ? (
-        <div>Logged in as {user.username}</div>
+        <div className="header__align_right">Logged in as {user.username}</div>
       ) : (
-        <Link to="/login" className="header__button">
+        <Link to="/login" className="header__button header__align_right">
           Login
         </Link>
       )}
