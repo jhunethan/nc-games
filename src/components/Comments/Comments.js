@@ -26,13 +26,23 @@ export default function Comments(props) {
     fetchData();
     return () => {
       componentMounted = false;
-    }
+    };
   }, [review_id]);
+
+  function sortByDateProperty(array) {
+    return array.slice().sort((a, b) => {
+      if (b.comment_id > a.comment_id) return 1;
+      return -1;
+    });
+  }
 
   return (
     <section>
       <AddComment user={user} review_id={review_id} setComments={setComments} />
-      {comments.map((comment, index) => {
+      {!comments.length && (
+        <div className="spinner-border relative-center" role="status"></div>
+      )}
+      {sortByDateProperty(comments).map((comment, index) => {
         return <SingleComment key={`comment${index}`} comment={comment} />;
       })}
     </section>
@@ -97,7 +107,7 @@ export function AddComment(props) {
           const { comment } = response.data;
           //change locally
           setComments((currComments) => {
-            return [comment, ...currComments];
+            return [...currComments, comment];
           });
         })
         .catch((err) => {

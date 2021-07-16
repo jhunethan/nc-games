@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Error from "../components/Error/Error";
+import Header from "../components/Header/Header";
 import Homepage from "../components/Homepage/Homepage";
 import Login from "../components/Login/Login";
 import Review from "../components/Review/Review";
@@ -9,13 +10,10 @@ import "./App.css";
 export default function App() {
   const [user, setUser] = useState();
 
-  // loading state for comments, users
-  // axios use params for axios
-  
   return (
     <main>
       <BrowserRouter>
-      {/* put header here */}
+        <Header user={user} />
         <Switch>
           <Route path="/" exact>
             <Homepage setUser={setUser} user={user} />
@@ -24,7 +22,7 @@ export default function App() {
             <Review user={user} />
           </Route>
           <Route path="/login">
-            <Login setUser={(user)=>setUser(user)} />
+            <Login setUser={(user) => setUser(user)} />
           </Route>
           <Route>
             <Error />

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useReview, useVotes } from "../../Hooks/Hooks";
 import dateFormat from "dateformat";
-import Header from "../Header/Header";
 import Comments from "../Comments/Comments";
 
 import "./Review.css";
@@ -17,12 +16,13 @@ export default function Review(props) {
   const { review } = useReview(review_id);
 
   useEffect(() => {
-    if (review) setVotes(review.votes);
-  }, [review, setVotes]);
+    if (review) {
+      setVotes(review.votes);
+    }
+  });
 
   return (
     <section>
-      <Header user={user} />
       {review ? (
         <div className="reviewCard__container">
           <h2 className="display__title remove_bold">{review.title}</h2>
@@ -41,6 +41,7 @@ export default function Review(props) {
             />
           )}
           <p className="display__body">{review.review_body}</p>
+
           <button
             className="btn btn-secondary"
             onClick={(event) =>
@@ -49,6 +50,7 @@ export default function Review(props) {
           >
             ⬆ {votes} Votes
           </button>
+
           <section className="comments__section">
             <h2>Comments</h2>
             <Comments user={user} />

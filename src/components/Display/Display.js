@@ -5,7 +5,7 @@ import { useVotes } from "../../Hooks/Hooks";
 import "./Display.css";
 
 //review Card
-function ReviewDisplay(props) {
+function ReviewCard(props) {
   const { votes, setVotes, addVote } = useVotes();
   const { review } = props;
 
@@ -54,7 +54,7 @@ function ReviewDisplay(props) {
 }
 
 // review list 
-export default function Display(props) {
+export default function ReviewsList(props) {
   const { reviews } = props;
 
   return (
@@ -62,7 +62,7 @@ export default function Display(props) {
       {reviews.length ? (
         <section className="display__grid">
           {reviews.map((review, index) => {
-            return <ReviewDisplay key={`review${index}`} review={review} />;
+            return <ReviewCard key={`review${index}`} review={review} />;
           })}
         </section>
       ) : (

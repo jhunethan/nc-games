@@ -10,12 +10,12 @@ export const getCategories = async () => {
 };
 
 export const getReviews = async (filters) => {
-  const queries =  []
+  const params = {};
   for (const key in filters) {
-    if(filters[key])queries.push(`${key}=${filters[key]}`)
+    if (filters[key]) params[key] = filters[key];
   }
-  const url = `/reviews?${queries.join('&')}`
-  const reviews = await gamesApi.get(url);
+  const url = `/reviews`;
+  const reviews = await gamesApi.get(url, { params });
   return reviews;
 };
 

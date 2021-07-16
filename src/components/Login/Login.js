@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import Header from "../Header/Header";
 import "./Login.css";
 
 export default function Login(props) {
@@ -26,7 +25,6 @@ export default function Login(props) {
   
   return (
     <main>
-      <Header />
       <form className="login__container">
         <h1>Login</h1>
         <h2>Select any of the following</h2>

@@ -5,10 +5,9 @@
     min-width: 300px;
     max-width: 80ch;
 
-    margin: 5vh auto;
+    margin: 5vh auto 0 auto;
 }
 
 .reviewCard__container{
-    padding: 20px;
+    padding: 20px 20px 0 20px;
 }
-

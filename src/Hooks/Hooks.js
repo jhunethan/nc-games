@@ -6,18 +6,13 @@ export const useVotes = (initialVotes = 0) => {
   const [votes, setVotes] = useState(initialVotes);
 
   function addVote({ event, id, database }) {
-    const { target } = event;
-
     event.preventDefault();
     setVotes((currVotes) => currVotes + 1);
 
-    target.classList.add("btn-outline-success");
-    target.classList.remove("btn-secondary");
-    target.disabled = true;
-
-    axios.patch(`https://ncgames.herokuapp.com/api/${database}/${id}`, {
-      inc_votes: 1,
-    });
+    axios
+      .patch(`https://ncgames.herokuapp.com/api/${database}/${id}`, {
+        inc_votes: 1,
+      })
   }
 
   return { votes, setVotes, addVote };
@@ -71,10 +66,10 @@ export const useReviews = () => {
   };
 
   useEffect(() => {
-    if(reviews.length)return;
+    if (reviews.length) return;
     let componentMounted = true;
     const fetchData = async () => {
-      const response = await getReviews({})
+      const response = await getReviews({});
       const { reviews } = response.data;
       if (componentMounted) {
         setReviews(reviews);
@@ -83,7 +78,7 @@ export const useReviews = () => {
     fetchData();
     return () => {
       componentMounted = false;
-    }
+    };
   }, [reviews.length]);
 
   return {

@@ -12,6 +12,10 @@ a {
   top: 30vh;
 }
 
+.relative-center {
+  margin: 5vh 0 0 45%;
+}
+
 .grid-center {
   display: grid;
   place-items: center;
