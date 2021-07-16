@@ -71,11 +71,12 @@ export const useReviews = () => {
   };
 
   useEffect(() => {
+    if(reviews.length)return;
     let componentMounted = true;
     const fetchData = async () => {
       const response = await getReviews({})
       const { reviews } = response.data;
-      if (componentMounted && reviews.length) {
+      if (componentMounted) {
         setReviews(reviews);
       }
     };
