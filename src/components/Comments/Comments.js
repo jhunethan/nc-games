@@ -43,28 +43,48 @@ export default function Comments(props) {
         <div className="spinner-border relative-center" role="status"></div>
       )}
       {sortByDateProperty(comments).map((comment, index) => {
-        return <SingleComment key={`comment${index}`} comment={comment} />;
+        return (
+          <SingleComment
+            key={`comment${index}`}
+            comment={comment}
+            setComments={setComments}
+          />
+        );
       })}
     </section>
   );
 }
 
 function SingleComment(props) {
-  const { comment } = props;
-  const { votes, addVote } = useVotes(comment.votes);
+  const { comment, setComments } = props;
+  const { votes, setVotes, addVote } = useVotes(0);
 
+  useEffect(() => {
+     setVotes(comment.votes);
+  });
+
+  const incrementVote = (event) => {
+    addVote({ event, id: comment.comment_id, database: "comments" });
+    setComments((currComments) => {
+      return currComments.map((currComment) => {
+        if (currComment.comment_id === comment.comment_id) {
+          return {
+            ...currComment,
+            votes: currComment.votes + 1,
+            hasBeenVoted: true,
+          };
+        }
+        return currComment;
+      });
+    });
+  };
 
   return (
     <div className="comments__card">
       <h4>{comment.author}</h4>
       <p>{dateFormat(comment.created_at, "dS mmmm yyyy")}</p>
       <p>{comment.body}</p>
-      <button
-        className="btn btn-secondary"
-        onClick={(event) =>
-          addVote({ event, id: comment.comment_id, database: "comments" })
-        }
-      >
+      <button className="btn btn-secondary" onClick={incrementVote}>
         ⬆ {votes} Votes
       </button>
     </div>
