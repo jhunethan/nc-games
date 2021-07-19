@@ -5,8 +5,24 @@ import "./Display.css";
 
 //review Card
 function ReviewCard(props) {
-  const { review } = props;
-  const { votes,  addVote } = useVotes(review.votes);
+  const { review, setReviews } = props;
+  const { votes, addVote } = useVotes(review.votes);
+
+  const incrementVote = (event) => {
+    addVote({ event, id: review.review_id, database: "reviews" });
+    setReviews((currReviews) => {
+      return currReviews.map((currReview) => {
+        if (currReview.comment_id === review.comment_id) {
+          return {
+            ...currReview,
+            votes: currReview.votes + 1,
+            hasBeenVoted: true,
+          };
+        }
+        return currReview;
+      });
+    });
+  };
 
   return (
     <div className="display__card">
@@ -25,18 +41,15 @@ function ReviewCard(props) {
       )}
       <p className="display__body">{review.review_body}</p>
       <div className="display__container--spacebetween">
-        <button
-          className="btn btn-secondary"
-          onClick={(event) =>
-            addVote({
-              event,
-              id: review.review_id,
-              database: "reviews",
-            })
-          }
-        >
-          ⬆ {votes} Votes
-        </button>
+        {review.hasBeenVoted ? (
+          <button className="btn btn-outline-success" disabled>
+            ⬆ {votes} Votes
+          </button>
+        ) : (
+          <button className="btn btn-secondary" onClick={incrementVote}>
+            ⬆ {votes} Votes
+          </button>
+        )}
         <Link to={`/review/${review.review_id}`}>
           <p className="btn btn-secondary">
             View {review.comment_count} Comment
@@ -48,16 +61,22 @@ function ReviewCard(props) {
   );
 }
 
-// review list 
+// review list
 export default function ReviewsList(props) {
-  const { reviews } = props;
+  const { reviews, setReviews } = props;
 
   return (
     <main>
       {reviews.length ? (
         <section className="display__grid">
           {reviews.map((review, index) => {
-            return <ReviewCard key={`review${index}`} review={review} />;
+            return (
+              <ReviewCard
+                key={`review${index}`}
+                review={review}
+                setReviews={setReviews}
+              />
+            );
           })}
         </section>
       ) : (

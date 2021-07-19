@@ -12,7 +12,7 @@ export default function Review(props) {
   const params = useParams();
   const { review_id } = params;
 
-  const { votes, setVotes, addVote } = useVotes();
+  const { votes, setVotes, addVote, hasBeenVoted } = useVotes();
   const { review } = useReview(review_id);
 
   useEffect(() => {
@@ -42,14 +42,20 @@ export default function Review(props) {
           )}
           <p className="display__body">{review.review_body}</p>
 
-          <button
-            className="btn btn-secondary"
-            onClick={(event) =>
-              addVote({ event, id: review.review_id, database: "reviews" })
-            }
-          >
-            ⬆ {votes} Votes
-          </button>
+          {hasBeenVoted ? (
+            <button className="btn btn-outline-success" disabled>
+              ⬆ {votes} Votes
+            </button>
+          ) : (
+            <button
+              className="btn btn-secondary"
+              onClick={(event) =>
+                addVote({ event, id: review.review_id, database: "reviews" })
+              }
+            >
+              ⬆ {votes} Votes
+            </button>
+          )}
 
           <section className="comments__section">
             <h2>Comments</h2>

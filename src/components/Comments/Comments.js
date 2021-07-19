@@ -60,7 +60,7 @@ function SingleComment(props) {
   const { votes, setVotes, addVote } = useVotes(0);
 
   useEffect(() => {
-     setVotes(comment.votes);
+    setVotes(comment.votes);
   });
 
   const incrementVote = (event) => {
@@ -84,9 +84,15 @@ function SingleComment(props) {
       <h4>{comment.author}</h4>
       <p>{dateFormat(comment.created_at, "dS mmmm yyyy")}</p>
       <p>{comment.body}</p>
-      <button className="btn btn-secondary" onClick={incrementVote}>
-        ⬆ {votes} Votes
-      </button>
+      {comment.hasBeenVoted ? (
+        <button className="btn btn-outline-success" disabled>
+          ⬆ {votes} Votes
+        </button>
+      ) : (
+        <button className="btn btn-secondary" onClick={incrementVote}>
+          ⬆ {votes} Votes
+        </button>
+      )}
     </div>
   );
 }
