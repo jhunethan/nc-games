@@ -4,18 +4,20 @@ import { getReviewByReviewId, getReviews } from "../utils/api";
 
 export const useVotes = (initialVotes = 0) => {
   const [votes, setVotes] = useState(initialVotes);
+  const [hasBeenVoted, setHasBeenVoted] = useState(false);
 
   function addVote({ event, id, database }) {
     event.preventDefault();
     setVotes((currVotes) => currVotes + 1);
 
-    axios
-      .patch(`https://ncgames.herokuapp.com/api/${database}/${id}`, {
-        inc_votes: 1,
-      })
+    setHasBeenVoted(true);
+
+    axios.patch(`https://ncgames.herokuapp.com/api/${database}/${id}`, {
+      inc_votes: 1,
+    });
   }
 
-  return { votes, setVotes, addVote };
+  return { votes, setVotes, addVote, hasBeenVoted };
 };
 
 export const useReview = (review_id) => {

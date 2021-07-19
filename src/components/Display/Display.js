@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
 import { useVotes } from "../../Hooks/Hooks";
@@ -6,12 +5,8 @@ import "./Display.css";
 
 //review Card
 function ReviewCard(props) {
-  const { votes, setVotes, addVote } = useVotes();
   const { review } = props;
-
-  useEffect(() => {
-    setVotes(review.votes);
-  }, [review, setVotes]);
+  const { votes,  addVote } = useVotes(review.votes);
 
   return (
     <div className="display__card">

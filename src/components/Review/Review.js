@@ -16,7 +16,7 @@ export default function Review(props) {
   const { review } = useReview(review_id);
 
   useEffect(() => {
-    if (review) {
+    if (review && !votes) {
       setVotes(review.votes);
     }
   });
