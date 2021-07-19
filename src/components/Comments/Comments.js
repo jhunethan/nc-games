@@ -50,12 +50,9 @@ export default function Comments(props) {
 }
 
 function SingleComment(props) {
-  const { votes, setVotes, addVote } = useVotes(0);
   const { comment } = props;
+  const { votes, addVote } = useVotes(comment.votes);
 
-  useEffect(() => {
-    setVotes(comment.votes);
-  }, [comment, setVotes]);
 
   return (
     <div className="comments__card">
