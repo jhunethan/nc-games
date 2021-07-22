@@ -1,7 +1,7 @@
 <h1>NC Game Reviews</h1>
 <h2>The front-end section of a full stack application I built during my time at Northcoders.</h2>
 
-#You can visit this site at https://ncgames.netlify.app
+You can visit this site at https://ncgames.netlify.app
 
 The back-end section of this project can be found at https://github.com/jhunethan/be-nc-games
 
