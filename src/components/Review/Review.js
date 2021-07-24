@@ -22,7 +22,7 @@ export default function Review(props) {
   });
 
   return (
-    <section>
+    <section className="Homepage">
       {review ? (
         <div className="reviewCard__container">
           <h2 className="display__title remove_bold">{review.title}</h2>

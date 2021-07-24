@@ -1,4 +1,7 @@
 .header {
+  position: fixed;
+  z-index: 2;
+  width: 100vw;
   background-color: #eb1c23;
   color: white;
   text-align: left;

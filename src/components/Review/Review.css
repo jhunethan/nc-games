@@ -1,4 +1,5 @@
 .reviewCard__container, .comments__section{
+    text-align: left;
     min-height: 300px;
     height: auto;
     width: 80vw;

@@ -24,7 +24,7 @@ export default function Login(props) {
   }, []);
   
   return (
-    <main>
+    <main className="Homepage">
       <form className="login__container">
         <h1>Login</h1>
         <h2>Select any of the following</h2>
