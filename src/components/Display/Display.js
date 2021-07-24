@@ -7,7 +7,7 @@ import "./Display.css";
 //review Card
 function ReviewCard(props) {
   const { review, setReviews } = props;
-  const { votes, addVote, setVotes } = useVotes(0);
+  const { votes, addVote, setVotes } = useVotes();
 
   useEffect(() => {
     setVotes(review.votes);
@@ -17,7 +17,7 @@ function ReviewCard(props) {
     addVote({ event, id: review.review_id, database: "reviews" });
     setReviews((currReviews) => {
       return currReviews.map((currReview) => {
-        if (currReview.comment_id === review.comment_id) {
+        if (currReview.review_id === review.review_id) {
           return {
             ...currReview,
             votes: currReview.votes + 1,
