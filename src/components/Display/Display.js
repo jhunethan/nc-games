@@ -1,4 +1,5 @@
 import dateFormat from "dateformat";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useVotes } from "../../Hooks/Hooks";
 import "./Display.css";
@@ -6,7 +7,11 @@ import "./Display.css";
 //review Card
 function ReviewCard(props) {
   const { review, setReviews } = props;
-  const { votes, addVote } = useVotes(review.votes);
+  const { votes, addVote, setVotes } = useVotes(0);
+
+  useEffect(() => {
+    setVotes(review.votes);
+  });
 
   const incrementVote = (event) => {
     addVote({ event, id: review.review_id, database: "reviews" });
